@@ -209,7 +209,7 @@ function SunsetMap() {
 
   return (
     <div className="sunset-map-container">
-      <h1>Sunset Tracker</h1>
+      <h1 className="title-hues">Sky Fade</h1>
       <p>Click anywhere on the map to see sunset time and the sun's position</p>
 
       <MapContainer

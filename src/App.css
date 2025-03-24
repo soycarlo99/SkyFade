@@ -112,3 +112,39 @@
   color: #666;
   font-size: 0.9rem;
 }
+
+.title-hues {
+  font-size: 3rem;
+  text-align: center;
+  background-image: linear-gradient(
+    to right,
+    #ff7e5f,
+    #feb47b,
+    #ffcda5,
+    #ffd78e,
+    #ffb347,
+    #ff8c69,
+    #ff6b6b
+  );
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sky-fade 20s ease infinite;
+}
+
+@keyframes sky-fade {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.title-hues {
+  text-shadow: 0 2px 10px rgba(255, 126, 95, 0.2);
+}
