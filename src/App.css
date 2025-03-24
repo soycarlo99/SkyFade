@@ -1,0 +1,114 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sunset-map-container {
+  margin-bottom: 40px;
+}
+
+.sunset-info {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.weather-info {
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.forecast-suggestion {
+  font-style: italic;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fffde7;
+  border-radius: 4px;
+}
+
+.error {
+  color: #d32f2f;
+  padding: 10px;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+
+.sunset-arrow-icon {
+  background: transparent !important;
+}
+
+.arrow-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.location-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.arrow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow-stem {
+  width: 4px;
+  height: 30px;
+  background-color: #e74c3c;
+  position: absolute;
+  border-radius: 2px;
+}
+
+.arrow-point {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 232px solid #e74c3c;
+  position: absolute;
+  bottom: -224px;
+  transform: rotate(180deg);
+}
+
+.sun-icon {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  right: 0;
+  z-index: 20;
+}
+
+.sun-circle {
+  width: 100%;
+  height: 100%;
+  background-color: #f39c12;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #f1c40f;
+}
+
+.escape-solutions-footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: #666;
+  font-size: 0.9rem;
+}
