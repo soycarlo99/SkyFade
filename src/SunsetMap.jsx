@@ -131,7 +131,9 @@ function SunsetMap() {
 
       try {
         const sunsetResponse = await fetch(
-          `https://api.sunrise-sunset.org/json?lat=${selectedLocation.lat.toFixed(4)}&lng=${selectedLocation.lng.toFixed(4)}&date=today&formatted=0`,
+          `https://api.sunrise-sunset.org/json?lat=${selectedLocation.lat.toFixed(
+            4,
+          )}&lng=${selectedLocation.lng.toFixed(4)}&date=today&formatted=0`,
         );
 
         if (!sunsetResponse.ok) {
@@ -148,7 +150,9 @@ function SunsetMap() {
 
         //7Timer API
         const weatherResponse = await fetch(
-          `https://www.7timer.info/bin/api.pl?lon=${selectedLocation.lng.toFixed(2)}&lat=${selectedLocation.lat.toFixed(2)}&product=astro&output=json`,
+          `https://www.7timer.info/bin/api.pl?lon=${selectedLocation.lng.toFixed(
+            2,
+          )}&lat=${selectedLocation.lat.toFixed(2)}&product=astro&output=json`,
         );
 
         if (!weatherResponse.ok) {
@@ -207,16 +211,23 @@ function SunsetMap() {
     ? createSunsetArrow(sunsetDirection)
     : null;
 
+  function getSunPositionDescription(direction) {
+    if (direction > 265 && direction < 275) return "West";
+    if (direction >= 275 && direction < 315) return "Northwest";
+    if (direction >= 225 && direction <= 265) return "Southwest";
+    return "";
+  }
+
   return (
     <div className="sunset-map-container">
-      <h1 className="title-hues">Sky Fade</h1>
-      <p>Click anywhere on the map to see sunset time and the sun's position</p>
+      <div className="title-container">
+        <h1 className="title-hues">Sky Fade</h1>
+        <p className="app-description">
+          Click anywhere on the map to see sunset time and the sun's position
+        </p>
+      </div>
 
-      <MapContainer
-        center={[20, 0]}
-        zoom={2}
-        style={{ height: "500px", width: "100%" }}
-      >
+      <MapContainer center={[20, 0]} zoom={2} className="map-container">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -226,126 +237,92 @@ function SunsetMap() {
         {markerPosition && (
           <Marker position={markerPosition} icon={sunsetArrowIcon}>
             <Popup>
-              Sun position: {Math.round(sunsetDirection)}°
-              {sunsetDirection > 265 && sunsetDirection < 275
-                ? " (West)"
-                : sunsetDirection >= 275 && sunsetDirection < 315
-                  ? " (Northwest)"
-                  : sunsetDirection >= 225 && sunsetDirection <= 265
-                    ? " (Southwest)"
-                    : ""}
+              <strong>Sun position:</strong> {Math.round(sunsetDirection)}°
+              {getSunPositionDescription(sunsetDirection)
+                ? ` (${getSunPositionDescription(sunsetDirection)})`
+                : ""}
             </Popup>
           </Marker>
         )}
       </MapContainer>
 
-      {loading && <p>Loading data...</p>}
-      {error && <p className="error">{error}</p>}
+      {loading && (
+        <div className="loading-indicator">Fetching sunset data...</div>
+      )}
+      {error && <div className="error">{error}</div>}
 
       {selectedLocation && sunsetData && !loading && (
         <div className="sunset-info">
           <h2>Sunset Information</h2>
-          <p>
-            <strong>Location:</strong> {selectedLocation.lat.toFixed(4)}°,{" "}
-            {selectedLocation.lng.toFixed(4)}°
-          </p>
-          <p>
-            <strong>Sunset Time:</strong> {formatTime(sunsetData.sunset)}
-          </p>
-          <p>
-            <strong>Sunrise Time:</strong> {formatTime(sunsetData.sunrise)}
-          </p>
-          <p>
-            <strong>Day Length:</strong>{" "}
-            {formatDayLength(sunsetData.day_length)}
-          </p>
-          <p>
-            <strong>Sun Position:</strong> {Math.round(sunsetDirection)}°
-            {sunsetDirection > 265 && sunsetDirection < 275
-              ? " (West)"
-              : sunsetDirection >= 275 && sunsetDirection < 315
-                ? " (Northwest)"
-                : sunsetDirection >= 225 && sunsetDirection <= 265
-                  ? " (Southwest)"
-                  : ""}
-          </p>
-          {cloudiness !== null && (
-            <div
-              className="weather-info"
-              style={{
-                backgroundColor:
-                  cloudiness < 20
-                    ? "#e6ffed"
-                    : cloudiness < 40
-                      ? "#f0ffe0"
-                      : cloudiness < 60
-                        ? "#fff9e6"
-                        : cloudiness < 80
-                          ? "#fff1e0"
-                          : "#ffebeb",
-                borderRadius: "4px",
-                padding: "15px",
-                border:
-                  cloudiness < 20
-                    ? "1px solid #a1e5b4"
-                    : cloudiness < 40
-                      ? "1px solid #c6e0a5"
-                      : cloudiness < 60
-                        ? "1px solid #e6d292"
-                        : cloudiness < 80
-                          ? "1px solid #e6c092"
-                          : "1px solid #e6a5a5",
-                transition: "background-color 0.3s ease",
-              }}
-            >
-              <h3>Weather Forecast at Sunset</h3>
+
+          <div className="info-grid">
+            <div className="info-item">
               <p>
-                <strong>Cloud Coverage:</strong> {cloudiness}%
+                <strong>Location</strong> {selectedLocation.lat.toFixed(4)}°,{" "}
+                {selectedLocation.lng.toFixed(4)}°
+              </p>
+            </div>
+
+            <div className="info-item">
+              <p>
+                <strong>Sunset Time</strong> {formatTime(sunsetData.sunset)}
+              </p>
+            </div>
+
+            <div className="info-item">
+              <p>
+                <strong>Sunrise Time</strong> {formatTime(sunsetData.sunrise)}
+              </p>
+            </div>
+
+            <div className="info-item">
+              <p>
+                <strong>Day Length</strong>{" "}
+                {formatDayLength(sunsetData.day_length)}
+              </p>
+            </div>
+
+            <div className="info-item">
+              <p>
+                <strong>Sun Position</strong> {Math.round(sunsetDirection)}°
+                {getSunPositionDescription(sunsetDirection)
+                  ? ` (${getSunPositionDescription(sunsetDirection)})`
+                  : ""}
+              </p>
+            </div>
+          </div>
+
+          {cloudiness !== null && (
+            <div className="weather-info">
+              <h3>Weather Forecast at Sunset</h3>
+
+              <p>
+                <strong>Cloud Coverage</strong> {cloudiness}%
                 <span
                   className="cloud-indicator"
                   style={{
                     display: "inline-block",
                     width: `${cloudiness}%`,
-                    height: "10px",
-                    backgroundColor:
-                      cloudiness < 20
-                        ? "#4caf50"
-                        : cloudiness < 40
-                          ? "#8bc34a"
-                          : cloudiness < 60
-                            ? "#ffc107"
-                            : cloudiness < 80
-                              ? "#ff9800"
-                              : "#f44336",
-                    marginLeft: "10px",
-                    borderRadius: "5px",
                   }}
                 ></span>
               </p>
+
               <p>
-                <strong>Visibility Probability:</strong> {100 - cloudiness}%
+                <strong>Visibility Probability</strong> {100 - cloudiness}%
               </p>
-              <p
-                className="forecast-suggestion"
-                style={{
-                  backgroundColor:
-                    cloudiness < 30
-                      ? "#e8f5e9"
-                      : cloudiness < 70
-                        ? "#fff8e1"
-                        : "#ffebee",
-                }}
-              >
+
+              <div className="forecast-suggestion">
                 {cloudiness < 30
-                  ? "Clear skies expected! Great conditions for viewing the sunset."
+                  ? "✨ Clear skies expected! Great conditions for viewing the sunset."
                   : cloudiness < 70
-                    ? "Partially cloudy. You might get a beautiful sunset with cloud colors."
-                    : "Mostly cloudy. The sunset might not be clearly visible."}
-              </p>
+                    ? "🌤️ Partially cloudy. You might get a beautiful sunset with cloud colors."
+                    : "☁️ Mostly cloudy. The sunset might not be clearly visible."}
+              </div>
             </div>
           )}
         </div>
       )}
+
       <footer className="escape-solutions-footer">
         <p>
           © {new Date().getFullYear()} Escape Solutions. All rights reserved.
