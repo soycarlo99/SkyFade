@@ -227,7 +227,7 @@ function SunsetMap() {
         </p>
       </div>
 
-      <MapContainer center={[20, 0]} zoom={2} className="map-container">
+      <MapContainer center={[0, 0]} zoom={2} className="map-container">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
